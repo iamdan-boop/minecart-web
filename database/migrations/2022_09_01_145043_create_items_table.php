@@ -22,11 +22,11 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->dateTime('drop_date')->nullable();
             $table->dateTime('claimed_date')->nullable();
-            $table->text('display_price');
-            $table->text('shelf_location');
-            $table->double('handling_fee', 8, 2);
-            $table->dateTime('expiry_date');
-            $table->string('display');
+            $table->double('display_price')->default(0);
+            $table->text('shelf_location')->nullable();
+            $table->double('handling_fee', 8, 2)->default(0.0);
+            $table->dateTime('expiry_date')->nullable();
+            $table->string('display')->nullable();
             $table->timestamps();
         });
     }

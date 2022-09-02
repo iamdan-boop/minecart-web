@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: #FB5427" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: #474f52" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center"
@@ -14,7 +14,7 @@
     <hr class="sidebar-divider my-0">
 
 
-    @if(!auth()->user()->isAdmin())
+    @if(auth()->user()->isAdmin())
         <li class="nav-item {{ Route::is('dashboard.index') ? 'active' : '' }}">
             <a class="nav-link"
                href="{{ route('dashboard.index') }}">
@@ -23,12 +23,18 @@
             </a>
         </li>
 
+        <li class="nav-item {{ Route::is('announcements.index') ? 'active' : '' }}">
+            <a class="nav-link"
+               href="{{ route('announcements.index') }}">
+                <i class="fas fa-bullhorn"></i>
+                <span>{{ __('Announcements') }}</span></a>
+        </li>
     @else
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item {{ Route::is('dashboard.index') ? 'active' : '' }}">
+        <li class="nav-item {{ Route::is('customer.dashboard.index') ? 'active' : '' }}">
             <a class="nav-link"
-               href="{{ route('dashboard.index') }}">
+               href="{{ route('customer.dashboard.index') }}">
                 <i class="fas fa-home"></i>
                 <span>{{ __('Dashboard') }}</span></a>
         </li>
@@ -36,13 +42,29 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
+
+        <div class="sidebar-heading">Items</div>
+
         <!-- Nav Item - Clients -->
-        <li class="nav-item {{ Route::is('accounts.index') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('accounts.index') }}">
-                <i class="fa-solid fa-user"></i>
-                <span>{{ __('Accounts') }}</span>
+        <li class="nav-item {{ Route::is('customer.items.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('customer.items.index') }}">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span>{{ __('My Items') }}</span>
             </a>
         </li>
+
+
+
+
+        <div class="sidebar-heading">Transactions</div>
+        <!-- Nav Item - Clients -->
+        <li class="nav-item {{ Route::is('customer.cashouts.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('customer.cashouts.index') }}">
+                <i class="fa-solid fa-wallet"></i>
+                <span>{{ __('Cashouts') }}</span>
+            </a>
+        </li>
+
 
 
         {{--        <!-- Nav Item - Client Bills -->--}}

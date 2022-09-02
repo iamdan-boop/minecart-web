@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Cashout
@@ -35,10 +37,15 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Cashout whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Cashout whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User|null $owner
  */
 class Cashout extends Model
 {
     use HasFactory;
+
+    public static int $CASHOUT_STATUS_PENDING = 0;
+    public static int $CASHOUT_STATUS_FOR_CLAIMING = 1;
+    public static int $CASHOUT_STATUS_CLAIMED = 2;
 
 
     protected $fillable = [
@@ -53,5 +60,22 @@ class Cashout extends Model
     ];
 
 
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
+
+    public function status(): Attribute
+    {
+        return Attribute::make(
+            get: function (int $value) {
+                return match ($value) {
+                    self::$CASHOUT_STATUS_PENDING => 'PENDING',
+                    self::$CASHOUT_STATUS_FOR_CLAIMING => 'FOR CLAIMING',
+                    self::$CASHOUT_STATUS_CLAIMED => 'CLAIMED'
+                };
+            }
+        );
+    }
 }

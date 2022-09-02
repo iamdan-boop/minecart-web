@@ -11,9 +11,9 @@ class StoreItemRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize() : bool
+    public function authorize(): bool
     {
-        return auth()->check() && auth()->user()->isAdmin();
+        return auth()->check();
     }
 
     /**
@@ -21,7 +21,7 @@ class StoreItemRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'buyer_name' => 'required|string',

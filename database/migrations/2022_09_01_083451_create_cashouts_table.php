@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Cashout;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,7 @@ return new class extends Migration {
             $table->id();
             $table->text('name');
             $table->double('amount');
-            $table->text('status');
+            $table->integer('status')->default(Cashout::$CASHOUT_STATUS_PENDING);
             $table->dateTime('request_date')->nullable();
             $table->dateTime('approved_date')->nullable();
             $table->dateTime('release_date')->nullable();

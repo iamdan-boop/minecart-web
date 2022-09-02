@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Announcement;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAnnouncementRequest extends FormRequest
+class UpdateAnnouncementRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +21,7 @@ class StoreAnnouncementRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
             'title' => 'required|string',

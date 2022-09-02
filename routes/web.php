@@ -22,22 +22,35 @@ Route::middleware('guest')->group(function () {
 });
 
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
-    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
+Route::group(['middleware' => ['auth']], function () {
+
+    Route::group(['prefix' => 'admin', 'middleware' => 'is_admin'], function () {
+        Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
 
 
-    Route::put('/updateToUser/{account}', [\App\Http\Controllers\AccountController::class, 'updateToUserRole'])->name('account.toUserRole');
-    Route::put('/updateToBantay/{account}', [\App\Http\Controllers\AccountController::class, 'updateToBantayRole'])->name('account.toBantayRole');
-    Route::resources([
-        'accounts' => \App\Http\Controllers\AccountController::class,
-        'items' => \App\Http\Controllers\ItemController::class,
-        'announcements' => \App\Http\Controllers\AnnouncementController::class,
-    ]);
+        Route::put('/updateToUser/{account}', [\App\Http\Controllers\AccountController::class, 'updateToUserRole'])->name('account.toUserRole');
+        Route::put('/updateToBantay/{account}', [\App\Http\Controllers\AccountController::class, 'updateToBantayRole'])->name('account.toBantayRole');
+        Route::resources([
+            'accounts' => \App\Http\Controllers\AccountController::class,
+            'items' => \App\Http\Controllers\ItemController::class,
+            'announcements' => \App\Http\Controllers\AnnouncementController::class,
+        ]);
+    });
 
 
-    Route::post('/logout', function (\Illuminate\Http\Request $request) {
-        auth()->logout();
-        $request->session()->regenerate();
-        return redirect()->route('login.index');
-    })->name('logout');
+    Route::group(['prefix' => 'customer', 'as' => 'customer.'], function () {
+        Route::get('/dashboard', [\App\Http\Controllers\Customer\CustomerDashboardController::class, 'index'])->name('dashboard.index');
+
+        Route::resources([
+            'items' => \App\Http\Controllers\Customer\CustomerItemController::class,
+            'cashouts' => \App\Http\Controllers\Customer\CustomerCashoutController::class,
+        ]);
+    });
+
+
+    Route::post('/logout', \App\Http\Controllers\LogoutController::class)
+        ->withoutMiddleware('is_admin')
+        ->name('logout');
+
+    Route::put('/update/profile', \App\Http\Controllers\ProfileController::class)->name('update.profile');
 });

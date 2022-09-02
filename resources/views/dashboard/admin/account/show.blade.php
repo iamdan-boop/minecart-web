@@ -130,12 +130,12 @@
 
                         <div class="form-group">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="item_type" id="food" value="food">
+                                <input class="form-check-input" type="radio" name="type" id="food" value="food">
                                 <label class="form-check-label" for="food">Food</label>
                             </div>
 
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="item_type" id="others"
+                                <input class="form-check-input" type="radio" name="type" id="others"
                                        value="others">
                                 <label class="form-check-label" for="others">Others</label>
                             </div>
@@ -143,14 +143,14 @@
 
 
                         <div class="form-group">
-                            <label>Seller Price</label>
-                            <input class="form-control form-control-user" type="number" name="price"
+                            <label for="seller_price">Seller Price</label>
+                            <input id="seller_price" class="form-control form-control-user" type="number" name="price"
                                    placeholder="100.00">
                         </div>
 
                         <div class="form-group">
-                            <label>Notes</label>
-                            <textarea class="form-control form-control-user"></textarea>
+                            <label for="note">Notes</label>
+                            <textarea id="note" class="form-control form-control-user" name="note"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
