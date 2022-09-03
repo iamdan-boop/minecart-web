@@ -29,6 +29,55 @@
                 <i class="fas fa-bullhorn"></i>
                 <span>{{ __('Announcements') }}</span></a>
         </li>
+
+
+        <div class="sidebar-heading text-white">Cashouts</div>
+
+        <li class="nav-item {{ Route::is('cashouts.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cashouts.index') }}">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <span>{{ __('Request Cashouts') }}</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Route::is('cashouts.claim.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cashouts.claim.index') }}">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <span>{{ __('To Claim') }}</span>
+            </a>
+        </li>
+
+
+        <div class="sidebar-heading text-white">Items</div>
+
+        <!-- Nav Item - Clients -->
+        <li class="nav-item {{ Route::is('items.for-approval.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('items.for-approval.index') }}">
+                <i class="fa-solid fa-shopping-cart"></i>
+                <span>{{ __('For Approval') }}</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Route::is('items.for-claiming.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('items.for-claiming.index') }}">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>{{ __('For Claiming') }}</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Route::is('items.claimed.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('items.claimed.index') }}">
+                <i class="fa-solid fa-hand-holding"></i>
+                <span>{{ __('Claimed') }}</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Route::is('items.pullout.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('items.pullout.index') }}">
+                <i class="fa-solid fa-ban"></i>
+                <span>{{ __('Pullouts') }}</span>
+            </a>
+        </li>
     @else
 
         <!-- Nav Item - Dashboard -->
@@ -50,6 +99,14 @@
             <a class="nav-link" href="{{ route('customer.items.index') }}">
                 <i class="fa-solid fa-shopping-cart"></i>
                 <span>{{ __('My Items') }}</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item {{ Route::is('customer.items.pull-out.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('customer.items.pull-out.index') }}">
+                <i class="fa-solid fa-arrow-right"></i>
+                <span>{{ __('Pullout Items') }}</span>
             </a>
         </li>
 

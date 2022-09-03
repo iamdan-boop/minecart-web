@@ -23,6 +23,8 @@ class LoginController extends Controller
         }
 
         notify()->success('Welcome aboard. ' . auth()->user()->name);
-        return redirect()->route('dashboard.index');
+        return auth()->user()->isAdmin()
+            ? redirect()->route('dashboard.index')
+            : redirect()->route('customer.dashboard.index');
     }
 }

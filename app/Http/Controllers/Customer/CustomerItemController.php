@@ -17,6 +17,12 @@ class CustomerItemController extends Controller
     }
 
 
+    public function pulloutItemsView(): View
+    {
+        $items = Item::where('status', Item::$ITEM_STATUS_PULLOUT)->paginate(10);
+        return view('dashboard.customer.item.index', compact('items'));
+    }
+
     public function store(StoreItemRequest $request): RedirectResponse
     {
         Item::create($request->validated() + ['user_id' => auth()->id()]);

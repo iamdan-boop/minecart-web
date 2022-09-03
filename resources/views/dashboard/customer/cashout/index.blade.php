@@ -16,7 +16,7 @@
 
     <div>
         <div class="container">
-            <div class="card shadow mb-4">
+            <div class="card shadow mb-4 ">
                 <div class="card-header py-3">
                     <div class="row align-items-center">
                         <div class="col-9">

@@ -65,7 +65,6 @@ class Item extends Model
         'buyer_name',
         'price',
         'type',
-        'price',
         'note',
         'status',
         'user_id',

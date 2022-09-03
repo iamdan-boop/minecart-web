@@ -62,7 +62,7 @@ class Cashout extends Model
 
     public function owner(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
 
@@ -75,7 +75,7 @@ class Cashout extends Model
                     self::$CASHOUT_STATUS_FOR_CLAIMING => 'FOR CLAIMING',
                     self::$CASHOUT_STATUS_CLAIMED => 'CLAIMED'
                 };
-            }
+            },
         );
     }
 }

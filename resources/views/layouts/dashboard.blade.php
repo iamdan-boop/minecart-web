@@ -14,6 +14,12 @@
             <!-- Main Content -->
             <div id="content">
 
+                @if($errors->any())
+                    @php
+                        notify()->error(join(',', $errors->all()))
+                    @endphp
+                @endif
+
                 @include('includes.topbar')
                 <!-- End of Topbar -->
                 @yield('dashboard-content')
