@@ -50,14 +50,12 @@ class CashoutController extends Controller
     public function approveCashout(ApproveCashoutRequest $request, Cashout $cashout): RedirectResponse
     {
 
-        DB::transaction(function () use ($cashout, $request) {
-            $cashout->update([
-                'status' => Cashout::$CASHOUT_STATUS_FOR_CLAIMING,
-                'release_date' => $request->date('release_date'),
-                'approved_date' => now(),
-            ]);
-            $cashout->owner->deposit($cashout->amount);
-        });
+        $cashout->update([
+            'status' => Cashout::$CASHOUT_STATUS_FOR_CLAIMING,
+            'release_date' => $request->date('release_date'),
+            'approved_date' => now(),
+        ]);
+        $cashout->owner->deposit($cashout->amount);
 
         notify()->success('Cashout approved successfully.');
         return redirect()->route('cashouts.index');
@@ -78,10 +76,8 @@ class CashoutController extends Controller
      */
     public function approveCashoutClaimed(Cashout $cashout): RedirectResponse
     {
-        DB::transaction(function () use ($cashout) {
-            $cashout->update(['status' => Cashout::$CASHOUT_STATUS_CLAIMED]);
-            $cashout->owner->withdraw($cashout->amount);
-        });
+        $cashout->update(['status' => Cashout::$CASHOUT_STATUS_CLAIMED]);
+        $cashout->owner->withdraw($cashout->amount);
 
         notify()->success('Cashout claimed successfully.');
         return redirect()->route('cashouts.claim.index');
