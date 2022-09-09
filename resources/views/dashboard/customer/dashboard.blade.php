@@ -30,7 +30,8 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Cashout
                                     (Received)
                                 </div>
-                                <div class="h-5 mb-0 font-weight-bold text-gray-800">{{ number_format($receivedCashouts, 2) }}</div>
+                                <div
+                                    class="h-5 mb-0 font-weight-bold text-gray-800">{{ number_format($receivedCashouts, 2) }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-wallet fa-2x text-gray-300"></i>
@@ -55,6 +56,31 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div>
+            <div class="card shadow mt-4">
+                <div class="card-header py-3">Announcements</div>
+                <div class="card-body">
+                    @foreach ($announcements as $announcement)
+                        <div class="card mt-2">
+                            <div class="card-header">{{ $announcement->title }}</div>
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p>{!! $announcement->body !!}</p>
+                                </blockquote>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    @if ( $announcements->links()->paginator->hasPages())
+                        <div class="mt-4 p-4 d-flex justify-content-end align-items-end">
+                            {{ $announcements->links() }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
