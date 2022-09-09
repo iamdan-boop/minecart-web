@@ -16,18 +16,21 @@ class UserSeeder extends Seeder
     {
         $users = User::factory(10)->create();
         foreach ($users as $user) {
-            $user->assignRole(User::$ROLE_USER);
+            $user->assignRole(User::$ROLE_USER)
+                ->deposit(9999);
         }
 
         $bantays = User::factory(10)->create();
         foreach ($bantays as $bantay) {
-            $bantay->assignRole(User::$ROLE_BANTAY);
+            $bantay->assignRole(User::$ROLE_BANTAY)
+                ->deposit(9999);
         }
 
 
         $admins = User::factory(5)->create();
         foreach ($admins as $admin) {
-            $admin->assignRole(User::$ROLE_ADMIN);
+            $admin->assignRole(User::$ROLE_ADMIN)
+                ->deposit(999);
         }
     }
 }
