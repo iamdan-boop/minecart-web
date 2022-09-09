@@ -25,7 +25,9 @@ class StoreCashoutRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'amount' => 'required|numeric'
+            'items' => 'nullable|sometimes|array',
+            'items.*' => 'required|exists:items,id',
+            'select_all_items' => 'nullable|sometimes'
         ];
     }
 }

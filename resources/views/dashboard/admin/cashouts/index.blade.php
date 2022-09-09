@@ -34,8 +34,8 @@
                                     <td>
                                         <div class="container">
                                             <div class="row justify-content-center lg:justify-start">
-                                                <button class="btn btn-success mb-2 mr-2 lg:mb-0" data-toggle="modal"
-                                                        data-target="#cashoutRequestModal" id="acceptCashoutBtn"
+                                                <button class="btn btn-success mb-2 mr-2 lg:mb-0 acceptCashoutBtn" data-toggle="modal"
+                                                        data-target="#cashoutRequestModal"
                                                         data-object="{{ json_encode($cashout) }}">Accept
                                                 </button>
                                                 <form method="POST">
@@ -116,8 +116,9 @@
                 paging: false
             });
 
-            $('#acceptCashoutBtn').click(function () {
+            $('.acceptCashoutBtn').click(function () {
                 const cashout = $(this).data('object')
+                console.log(cashout)
                 $('#request_date').text(cashout.request_date)
                 $('#request_amount').text(cashout.amount)
                 $('#cashoutForm').attr('action', "/admin/cashouts/" + cashout.id + '/approve')

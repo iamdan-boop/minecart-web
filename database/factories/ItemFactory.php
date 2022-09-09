@@ -21,10 +21,12 @@ class ItemFactory extends Factory
             'buyer_name' => $this->faker->name(),
             'type' => $this->faker->numberBetween(0, 1),
             'price' => $this->faker->numberBetween(100, 1000),
-            'note' => $this->faker->randomAscii(),
+            'note' => $this->faker->sentence(),
             'status' => $this->faker->numberBetween(0, 3),
             'user_id' => User::inRandomOrder()->first()->id,
-            'drop_date' => now()
+            'drop_date' => now(),
+            'claimed_date' => now()->addDays(5),
+            'expiry_date' => now()->addDays(10),
         ];
     }
 }

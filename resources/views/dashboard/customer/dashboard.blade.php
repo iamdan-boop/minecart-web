@@ -11,7 +11,7 @@
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Items (Claimed)
                                 </div>
-                                <div class="h-5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                <div class="h-5 mb-0 font-weight-bold text-gray-800">{{ $itemsClaimedCost }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
@@ -30,7 +30,7 @@
                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Cashout
                                     (Received)
                                 </div>
-                                <div class="h-5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                <div class="h-5 mb-0 font-weight-bold text-gray-800">{{ number_format($receivedCashouts, 2) }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-wallet fa-2x text-gray-300"></i>

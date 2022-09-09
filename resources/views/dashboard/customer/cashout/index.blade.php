@@ -3,6 +3,7 @@
 
 @push('styles')
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 @endpush
 
 
@@ -86,10 +87,17 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="amount">Amount</label>
-                            <input id="amount" type="number" class="form-control form-control-user"
-                                   name="amount"
-                                   placeholder="1000">
+                            <label for="items">Items</label>
+                            <select id="items" class="form-control-user" name="items[]" multiple style="width:100%">
+                                @foreach ($claimedItems as $item)
+                                    <option value="{{ $item->id }}">{{ $item->buyer_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="select_all_items" name="select_all_items">
+                            <label class="form-check-label" for="select_all_items">Select All Items</label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -108,11 +116,21 @@
 @push('scripts')
     <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         $(function () {
             $('#cashoutTable').DataTable({
                 paging: false
             });
+
+            $('#items').select2();
+
+
+            $('#select_all_items').change(function (e) {
+                if ($(this).is(':checked')) {
+                    $('#items').prop('disabled', 'disabled')
+                }
+            })
         })
     </script>
 @endpush

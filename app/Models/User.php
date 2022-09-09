@@ -7,6 +7,7 @@ use Bavix\Wallet\Interfaces\Wallet;
 use Bavix\Wallet\Traits\HasWallet;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -55,6 +56,8 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $wallet_transactions_count
  * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Item[] $items
+ * @property-read int|null $items_count
  */
 class User extends Authenticatable implements Wallet
 {
@@ -113,5 +116,10 @@ class User extends Authenticatable implements Wallet
     public function isBantay(): bool
     {
         return $this->hasRole('bantay');
+    }
+
+
+    public function items(): HasMany {
+        return $this->hasMany(Item::class);
     }
 }

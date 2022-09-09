@@ -3,6 +3,7 @@
 
 @push('styles')
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
 @endpush
 
 
@@ -35,8 +36,9 @@
                                     <td>{{ $item->price }}</td>
                                     <td>{{ $item->note }}</td>
                                     <td>
-                                        <div class="container row align-items-center justify-content-between">
-                                            <button id="itemDropBtn" class="btn btn-success mb-2 mb-lg-0"
+                                        <div
+                                            class="container row align-items-center justify-content-between">
+                                            <button class="btn btn-success mb-2 mb-lg-2 itemDropBtn"
                                                     data-toggle="modal"
                                                     data-target="#itemDropModal"
                                                     data-object="{{ json_encode($item) }}"
@@ -106,6 +108,13 @@
                                    placeholder="Shelf ID">
                         </div>
 
+
+                        <div class="form-group">
+                            <label for="shelf_life_till">Shelf Life Till</label>
+                            <input id="shelf_life_till" class="form-control form-control-user"
+                                   name="shelf_life_till">
+                        </div>
+
                         <div class="form-group">
                             <label for="note">Item Note Description</label>
                             <textarea id="note" class="form-control form-control-user" name="note"></textarea>
@@ -127,19 +136,23 @@
 @push('scripts')
     <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ asset('js/moment.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script type="text/javascript">
         $(function () {
             $('#itemsTable').DataTable({
                 paging: false
             });
 
-            $('#itemDropBtn').click(function () {
+            $('.itemDropBtn').click(function () {
                 const item = $(this).data('object');
                 $('#buyer_name').text(item.buyer_name)
                 $('#sellers_price').text(item.price.toFixed(2))
                 $('#note').val(item.note)
 
                 $('#itemDropForm').attr('action', "/admin/items/" + item.id + "/approve")
+
+                $('#shelf_life_till').datetimepicker();
             })
         })
     </script>

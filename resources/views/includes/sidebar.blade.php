@@ -5,7 +5,7 @@
     <a class="sidebar-brand d-flex align-items-center justify-content-center"
        href="{{ route('dashboard.index') }}">
         <div class="sidebar-brand-icon rotate-n-15">
-            <img src="{{ asset('img/undraw_rocket.svg') }}" style="height: 30px;" alt="">
+            <img src="{{ asset('img/minecart-logo.png') }}" style="height: 30px;" alt="">
         </div>
         <div class="sidebar-brand-text mx-3">Minecart Shop</div>
     </a>
@@ -47,6 +47,30 @@
             </a>
         </li>
 
+
+        <li class="nav-item {{ Route::is('cashouts.logs.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cashouts.logs.index') }}">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <span>{{ __('Logs') }}</span>
+            </a>
+        </li>
+
+
+        <div class="sidebar-heading">Transactions</div>
+
+        <li class="nav-item {{ Route::is('transactions.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('transactions.index') }}">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <span>{{ __('Transactions') }}</span>
+            </a>
+        </li>
+
+        <li class="nav-item {{ Route::is('transactions.income.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('transactions.income.index') }}">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <span>{{ __('Transactions Income') }}</span>
+            </a>
+        </li>
 
         <div class="sidebar-heading text-white">Items</div>
 
@@ -113,7 +137,7 @@
 
 
 
-        <div class="sidebar-heading">Transactions</div>
+        <div class="sidebar-heading">Cashouts</div>
         <!-- Nav Item - Clients -->
         <li class="nav-item {{ Route::is('customer.cashouts.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('customer.cashouts.index') }}">
@@ -160,13 +184,9 @@
         {{--        <hr class="sidebar-divider d-none d-md-block">--}}
     @endif
 
-
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline mt-3">
-        {{-- <button class="rounded-circle border-0 mt-5" id="sidebarToggle"></button> --}}
+        <button class="rounded-circle border-0 mt-5" id="sidebarToggle"></button>
     </div>
 
 </ul>

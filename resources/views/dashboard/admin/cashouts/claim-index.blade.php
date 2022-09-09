@@ -16,11 +16,11 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="announcementTable">
+                        <table class="table table-bordered" id="claimIndexTable">
                             <thead>
                             <tr>
                                 <th>Request Date</th>
-                                <th>Approved Date</th>
+                                    <th>Approved Date</th>
                                 <th>Released Date</th>
                                 <th>Receiver Name</th>
                                 <th>Amount</th>
@@ -37,7 +37,7 @@
                                     <td>{{ $cashout->amount }}</td>
                                     <td>
                                         <form action="{{ route('cashouts.approved.claim', $cashout) }}" method="POST"
-                                              onsubmit="return confirm('Approve cashout already claim?')">
+                                              onsubmit="return confirm('Approve Claim cashout?')">
                                             @csrf
                                             @method('PUT')
                                             <button class="btn btn-success" type="submit">Cashout Claimed</button>
@@ -68,7 +68,7 @@
     <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script type="text/javascript">
         $(function () {
-            $('#announcementTable').DataTable({
+            $('#claimIndexTable').DataTable({
                 paging: false
             });
         })

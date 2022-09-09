@@ -27,7 +27,8 @@ class UpdateItemRequest extends FormRequest
             'handling_fee' => 'required|numeric',
             'shelf_location' => 'required|string',
             'note' => 'required|string',
-            'sellers_price' => 'nullable|sometimes|numeric'
+            'sellers_price' => 'nullable|sometimes|numeric',
+            'shelf_life_till' => 'required|date'
         ];
     }
 }

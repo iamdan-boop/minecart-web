@@ -40,19 +40,19 @@
                                     <td>{{ $item->owner->name }}</td>
                                     <td>{{ $item->price }}</td>
                                     <td>{{ $item->drop_date }}</td>
-                                    <td>{{ $item->created_at }}</td>
+                                    <td>{{ $item->expiry_date }}</td>
                                     <td>{{ $item->note }}</td>
                                     <td>
                                         <div class="container">
-                                            <div class="row align-items-center justify-content-center">
-                                                <button id="updateItemBtn" class="btn btn-primary mb-2"
+                                            <div class="row align-items-center justify-content-center ">
+                                                <button class="btn btn-primary mb-2 updateItemBtn"
                                                         data-toggle="modal"
                                                         data-target="#updateItemModal"
                                                         data-object="{{ json_encode($item) }}"
                                                 >Update
                                                 </button>
 
-                                                <button id="claimItemBtn" class="btn btn-success mb-2"
+                                                <button class="btn btn-success mb-2 claimItemBtn"
                                                         data-toggle="modal"
                                                         data-target="#claimItemModal"
                                                         data-object="{{ json_encode($item) }}"
@@ -145,7 +145,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" id="submitItemDropped" class="btn btn-success">Save changes</button>
+                        <button type="submit"  class="btn btn-success">Save changes</button>
                     </div>
                 </div>
             </form>
@@ -189,7 +189,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" id="submitItemDropped" class="btn btn-success">Save changes</button>
+                        <button type="submit" class="btn btn-success">Save changes</button>
                     </div>
                 </div>
             </form>
@@ -206,10 +206,10 @@
     <script type="text/javascript">
         $(function () {
             $('#itemsTable').DataTable({
-                paging: false
+                paging: false,
             });
 
-            $('#updateItemBtn').click(function () {
+            $('.updateItemBtn').click(function () {
                 const item = $(this).data('object');
                 $('#buyer_name').text(item.buyer_name)
                 $('#sellers_price').text(item.price.toFixed(2))
@@ -223,7 +223,7 @@
             })
 
 
-            $('#claimItemBtn').click(function () {
+            $('.claimItemBtn').click(function () {
                 const item = $(this).data('object')
                 $('#buyer_name_claim').text(item.buyer_name)
                 $('#sellers_price_claim').text(item.price)

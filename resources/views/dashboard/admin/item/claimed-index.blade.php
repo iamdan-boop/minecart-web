@@ -12,7 +12,7 @@
         <div class="container">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="mr-5 font-weight-bold text-primary ">For Claiming</h6>
+                    <h6 class="mr-5 font-weight-bold text-primary ">Claimed Items</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -46,27 +46,35 @@
                                     <td>
                                         <div class="container">
                                             <div class="row align-items-center justify-content-center">
-                                                <button id="updateItemBtn" class="btn btn-primary mb-2"
+                                                <button id="viewItemBtn" class="btn btn-block btn-primary mb-2"
+                                                        data-toggle="modal"
+                                                        data-target="#viewItemModal"
+                                                        data-object="{{ json_encode($item) }}"
+                                                >View
+                                                </button>
+                                                <button id="updateItemBtn" class="btn btn-block btn-success mb-2"
                                                         data-toggle="modal"
                                                         data-target="#updateItemModal"
                                                         data-object="{{ json_encode($item) }}"
-                                                >Update
+                                                >Edit Item
                                                 </button>
 
-                                                <button id="claimItemBtn" class="btn btn-success mb-2"
-                                                        data-toggle="modal"
-                                                        data-target="#claimItemModal"
-                                                        data-object="{{ json_encode($item) }}"
-                                                >Claim Item
-                                                </button>
-
-
-                                                <form action="{{ route('items.update-moveToPullout', $item) }}"
-                                                      method="POST"
-                                                      onsubmit="return confirm('Are you sure you want to move this to pullout?')">
+                                                <form action="{{ route('items.update-return', $item) }}" method="POST"
+                                                      onsubmit="return confirm('Are you sure to return this item?')">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="submit" class="btn btn-danger">Move to Pullout
+                                                    <button type="submit" class="btn btn-block btn-warning mb-2">
+                                                        Return / Unclaim
+                                                    </button>
+                                                </form>
+
+
+                                                <form action="{{ route('items.destroy', $item) }}"
+                                                      method="POST"
+                                                      onsubmit="return confirm('Are you sure you want to delete this item?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Remove Item
                                                     </button>
                                                 </form>
                                             </div>
@@ -124,24 +132,11 @@
                                    placeholder="0.00">
                         </div>
 
-
-                        <div class="form-group">
-                            <label for="shelf_location">Shelf ID</label>
-                            <input id="shelf_location" class="form-control form-control-user" type="text"
-                                   name="shelf_location"
-                                   placeholder="Shelf ID">
-                        </div>
-
                         <div class="form-group">
                             <label for="sellers_price_input">Seller Price</label>
                             <input id="sellers_price_input" class="form-control form-control-user" type="number"
-                                   name="sellers_price"
+                                   name="price"
                                    placeholder="0.00">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="note">Item Note Description</label>
-                            <textarea id="note" class="form-control form-control-user" name="note"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -184,7 +179,7 @@
                         <div class="form-group">
                             <label for="sellers_money_input">Sellers Money</label>
                             <input id="sellers_money_input" class="form-control form-control-user" type="number"
-                                   name="sellers_money"
+                                   name="price"
                                    placeholder="0.00">
                         </div>
                     </div>
@@ -194,6 +189,72 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+
+
+    {{--  View Item  --}}
+    <div class="modal fade" id="viewItemModal" tabindex="-1" role="dialog"
+         aria-labelledby="viewItemModal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">View Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="buyer_name_view">Buyer Name</label>
+                            <input id="buyer_name_view" type="text" class="form-control form-control-user"
+                                   placeholder="Buyer Name" readonly>
+                        </div>
+
+
+                        <div class="form-group col-sm-6">
+                            <label for="price_view">My Price</label>
+                            <input id="price_view" type="text" class="form-control form-control-user"
+                                   placeholder="Price" readonly>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-2">
+                        <div class="form-group col-sm-6">
+                            <label for="drop_date_view">Drop Date</label>
+                            <input id="drop_date_view" type="text" class="form-control form-control-user"
+                                   placeholder="Buyer Name" readonly>
+                        </div>
+
+
+                        <div class="form-group col-sm-6">
+                            <label for="pickup_date_view">Pickup Date</label>
+                            <input id="pickup_date_view" type="text" class="form-control form-control-user"
+                                   placeholder="Price" readonly>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <input id="status" type="text" class="form-control form-control-user"
+                               placeholder="Status" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="note_view">Notes</label>
+                        <textarea id="note_view" class="form-control form-control-user" name="note" readonly>
+
+                        </textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -220,7 +281,7 @@
                 $('#sellers_price_input').val(item.price)
                 $('#note').val(item.note)
 
-                $('#itemDropForm').attr('action', "/admin/items/" + item.id)
+                $('#itemDropForm').attr('action', "/admin/items/" + item.id + "/update-claim")
             })
 
 
@@ -230,7 +291,21 @@
                 $('#sellers_price_claim').text(item.price)
                 $('#handling_fee_claim').text(item.handling_fee.toFixed(2))
 
+                $('#handling_fee_input').val(item.handling_fee)
+                $('#sellers_price_input').val(item.price)
+
                 $('#claimItemForm').attr('action', "/admin/items/" + item.id + "/claim")
+            })
+
+
+            $('#viewItemBtn').click(function () {
+                const item = $(this).data('object')
+                $('#buyer_name_view').val(item.buyer_name)
+                $('#price_view').val(item.price)
+                $('#drop_date_view').val(item.drop_date)
+                $('#pickup_date_view').val(item.claimed_date)
+                $('#status_view').val(item.status)
+                $('#note_view').val(item.note)
             })
         })
     </script>

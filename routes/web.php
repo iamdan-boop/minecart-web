@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::redirect('/', 'login');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [\App\Http\Controllers\LoginController::class, 'index'])->name('login.index');
     Route::post('/login', [\App\Http\Controllers\LoginController::class, 'authenticate'])->name('login.authenticate');
@@ -32,23 +34,38 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/updateToUser/{account}', [\App\Http\Controllers\AccountController::class, 'updateToUserRole'])->name('account.toUserRole');
         Route::put('/updateToBantay/{account}', [\App\Http\Controllers\AccountController::class, 'updateToBantayRole'])->name('account.toBantayRole');
 
+
+        // Items
         Route::group(['prefix' => 'items', 'controller' => \App\Http\Controllers\ItemController::class], function () {
-            Route::get('/for-approval', 'approvalItemsView')->name('items.for-approval.index');;
+            Route::get('/for-approval', 'approvalItemsView')->name('items.for-approval.index');
             Route::get('/for-claiming', 'claimingItemsView')->name('items.for-claiming.index');
             Route::get('/claimed', 'claimedItemsView')->name('items.claimed.index');
             Route::get('/pullouts', 'pulloutItemsView')->name('items.pullout.index');
-            Route::put('/{item}/approve', 'updateApprove')->name('items.update-approve');;
-            Route::put('/{item}/moveToPullout', 'updateMoveToPullout')->name('items.update-moveToPullout');;
-            Route::put('/{item}/claim', 'updateItemClaim')->name('items.claim.update');;
+            Route::put('/{item}/approve', 'updateApprove')->name('items.update-approve');
+            Route::put('/{item}/moveToPullout', 'updateMoveToPullout')->name('items.update-moveToPullout');
+            Route::put('/{item}/claim', 'updateItemClaim')->name('items.claim.update');
+            Route::put('/{item}/update-claim', 'updateItemClaimed')->name('items.update-claimed');
+            Route::put('/{item}/return', 'updateItemReturn')->name('items.update-return');
         });
 
+
+        // Cashouts
         Route::group(['prefix' => 'cashouts', 'controller' => \App\Http\Controllers\CashoutController::class], function () {
             Route::get('/', 'index')->name('cashouts.index');
             Route::get('/to-claim', 'toClaimCashoutsView')->name('cashouts.claim.index');
+            Route::get('/cashout-logs', 'cashoutLogsView')->name('cashouts.logs.index');
             Route::put('/{cashout}/approve', 'approveCashout')->name('cashouts.approve');
             Route::put('/{cashout}/decline', 'declineCashout')->name('cashouts.decline');
             Route::put('/{cashout}/approveClaim', 'approveCashoutClaimed')->name('cashouts.approved.claim');
         });
+
+
+        Route::get('/transactions', [\App\Http\Controllers\TransactionController::class, 'index'])->name('transactions.index');
+        Route::post('/transactions', [\App\Http\Controllers\TransactionController::class, 'index'])->name('transactions.index.filter');
+        Route::get('/transactions-income', [\App\Http\Controllers\TransactionController::class, 'incomeLogView'])->name('transactions.income.index');
+        Route::post('/transactions-income', [\App\Http\Controllers\TransactionController::class, 'incomeLogView'])->name('transactions.income.filter');
+        Route::get('/transactions-income-user', [\App\Http\Controllers\TransactionController::class, 'userIncomeLogView'])->name('transactions.income-user.index');
+        Route::put('/transaction/{user}', [\App\Http\Controllers\TransactionController::class, 'resetWallet'])->name('transaction.reset-wallet');
 
         Route::resources([
             'accounts' => \App\Http\Controllers\AccountController::class,

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Item\StoreItemRequest;
+use App\Http\Requests\UpdateItemClaimedRequest;
 use App\Http\Requests\UpdateItemClaimRequest;
 use App\Http\Requests\UpdateItemRequest;
 use App\Models\Item;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Yajra\DataTables\DataTables;
 
 class ItemController extends Controller
 {
@@ -23,7 +27,7 @@ class ItemController extends Controller
     }
 
 
-    public function claimingItemsView(): View
+    public function claimingItemsView(Request $request): View|JsonResponse
     {
         $items = Item::query()
             ->with('owner')
@@ -86,7 +90,7 @@ class ItemController extends Controller
 
     public function updateApprove(UpdateItemRequest $request, Item $item): RedirectResponse
     {
-        $item->update($request->validated() + ['status' => Item::$ITEM_STATUS_CLAIMING]);
+        $item->update($request->validated() + ['status' => Item::$ITEM_STATUS_CLAIMING, 'expiry_date' => $request->date('shelf_life_till')]);
 
         notify()->success('Item dropped successfully.');
         return redirect()->route('items.for-approval.index');
@@ -112,5 +116,23 @@ class ItemController extends Controller
 
         notify()->success('Item claimed successfully.');
         return redirect()->route('items.for-claiming.index');
+    }
+
+
+    public function updateItemClaimed(UpdateItemClaimedRequest $request, Item $item): RedirectResponse
+    {
+        $item->update($request->validated());
+
+        notify()->success('Item updated successfully.');
+        return redirect()->route('items.claimed.index');
+    }
+
+
+    public function updateItemReturn(Item $item): RedirectResponse
+    {
+        $item->update(['status' => Item::$ITEM_STATUS_CLAIMING]);
+
+        notify()->success('Item returned successfully.');
+        return redirect()->route('items.claimed.index');
     }
 }
