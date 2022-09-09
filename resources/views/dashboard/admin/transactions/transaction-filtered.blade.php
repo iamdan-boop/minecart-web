@@ -111,7 +111,7 @@
         </div>
 
 
-        @if(count($droppedItems) > 0)
+        @if(session()->has('from_date'))
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="mr-5 font-weight-bold text-primary ">{{ \Carbon\Carbon::parse(session(''))->format('d F Y') }}
@@ -154,7 +154,7 @@
             </div>
         @endif
 
-        @if(count($receivedHandlingFee) > 0)
+        @if(session('from_date'))
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="mr-5 font-weight-bold text-primary ">{{ \Carbon\Carbon::parse(session('from_date'))->format('d F Y') }}

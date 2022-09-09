@@ -63,7 +63,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/transactions', [\App\Http\Controllers\TransactionController::class, 'index'])->name('transactions.index');
         Route::post('/transactions', [\App\Http\Controllers\TransactionController::class, 'index'])->name('transactions.index.filter');
         Route::get('/transactions-income', [\App\Http\Controllers\TransactionController::class, 'incomeLogView'])->name('transactions.income.index');
-        Route::post('/transactions-income', [\App\Http\Controllers\TransactionController::class, 'incomeLogView'])->name('transactions.income.filter');
+//        Route::post('/transactions-income', [\App\Http\Controllers\TransactionController::class, 'incomeLogView'])->name('transactions.income.filter');
+        Route::get('/transaction/filter', [\App\Http\Controllers\TransactionController::class, 'incomeLogFilterAjax'])->name('transaction.ajax-filter-log-income');
+
         Route::get('/transactions-income-user', [\App\Http\Controllers\TransactionController::class, 'userIncomeLogView'])->name('transactions.income-user.index');
         Route::put('/transaction/{user}', [\App\Http\Controllers\TransactionController::class, 'resetWallet'])->name('transaction.reset-wallet');
 

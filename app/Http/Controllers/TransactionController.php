@@ -6,6 +6,7 @@ use App\Models\Cashout;
 use App\Models\Item;
 use App\Models\User;
 use Bavix\Wallet\Models\Wallet;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -20,6 +21,10 @@ class TransactionController extends Controller
         $todayClaimedItems = Item::where('status', Item::$ITEM_STATUS_CLAIMED)
             ->where('created_at', now())->count();
 
+        $droppedItems = [];
+
+        $receivedHandlingFee = [];
+
         if ($request->isMethod('POST')) {
             $droppedItems = Item::query()
                 ->with('owner')
@@ -31,25 +36,12 @@ class TransactionController extends Controller
                 ->whereBetween('drop_date', [$request->date('from_date'), $request->date('to_date')])
                 ->where('status', Item::$ITEM_STATUS_CLAIMED)
                 ->get();
-
-            session()->flash('from_date', $request->date('from_date'));
-            return view('dashboard.admin.transactions.index', compact('receivedHandlingFee', 'droppedItems', 'itemsDropped', 'claimedItems', 'todayDropItems', 'todayClaimedItems'));
         }
-        return view('dashboard.admin.transactions.index', compact('itemsDropped', 'claimedItems', 'todayDropItems', 'todayClaimedItems'));
+        return view('dashboard.admin.transactions.index', compact('itemsDropped', 'claimedItems', 'todayDropItems', 'todayClaimedItems', 'droppedItems', 'receivedHandlingFee'));
     }
 
 
-    public function filterIndex(): View {
-        $itemsDropped = Item::where('status', Item::$ITEM_STATUS_PENDING)->count();
-        $claimedItems = Item::where('status', Item::$ITEM_STATUS_CLAIMED)->count();
-        $todayDropItems = Item::where('status', Item::$ITEM_STATUS_PENDING)->where('created_at', now())->count();
-        $todayClaimedItems = Item::where('status', Item::$ITEM_STATUS_CLAIMED)
-            ->where('created_at', now())->count();
-    }
-
-
-
-    public function incomeLogView(Request $request): View
+    public function incomeLogView(): View
     {
         $overallReceivedSellersMoney = Item::query()
             ->where('status', Item::$ITEM_STATUS_CLAIMED)->sum('price');
@@ -70,23 +62,27 @@ class TransactionController extends Controller
         $overallUserWalletBalance = Wallet::query()->sum('balance');
         $users = User::query()->with('wallet')->paginate(10);
 
-        if ($request->isMethod('POST')) {
-            $todayReceivedSellersMoneyFilter = Item::query()
-                ->whereBetween('claimed_date', [$request->date('from_date'), $request->date('to_date')])
-                ->where('status', Item::$ITEM_STATUS_CLAIMED)
-                ->sum('price');
-
-            $overallHandlingFeeTodayFilter = Item::query()
-                ->whereBetween('claimed_date', [$request->date('from_date'), $request->date('to_date')])
-                ->where('status', Item::$ITEM_STATUS_CLAIMED)
-                ->sum('handling_fee');
-
-            session()->flash('from_date', $request->date('from_date'));
-
-            return view('dashboard.admin.transactions.income-index', compact('overallReceivedSellersMoney', 'todayReceivedSellersMoney', 'overallHandlingFee', 'overallHandlingFeeToday', 'overallUserWalletBalance', 'users', 'todayReceivedSellersMoneyFilter', 'overallHandlingFeeTodayFilter'));
-        }
-
         return view('dashboard.admin.transactions.income-index', compact('overallReceivedSellersMoney', 'todayReceivedSellersMoney', 'overallHandlingFee', 'overallHandlingFeeToday', 'overallUserWalletBalance', 'users'));
+    }
+
+
+    public function incomeLogFilterAjax(Request $request): JsonResponse
+    {
+        $todayReceivedSellersMoneyFilter = Item::query()
+            ->whereBetween('claimed_date', [$request->date('from_date'), $request->date('to_date')])
+            ->where('status', Item::$ITEM_STATUS_CLAIMED)
+            ->sum('price');
+
+        $overallHandlingFeeTodayFilter = Item::query()
+            ->whereBetween('claimed_date', [$request->date('from_date'), $request->date('to_date')])
+            ->where('status', Item::$ITEM_STATUS_CLAIMED)
+            ->sum('handling_fee');
+
+        return response()->json([
+            'todayReceivedSellersMoney' => number_format($todayReceivedSellersMoneyFilter, 2),
+            'overallHandlingFee' => number_format($overallHandlingFeeTodayFilter, 2),
+            'from_date' => $request->date('from_date')->format('d F Y'),
+        ]);
     }
 
 

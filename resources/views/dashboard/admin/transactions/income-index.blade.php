@@ -35,10 +35,15 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div
-                                    class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{ session('from_date') ? (\Illuminate\Support\Carbon::parse(session('from_date'))->format('d F Y'). ' Received Sellers Money') : 'Today Received Sellers Money' }}</div>
+                                    class="text-xs font-weight-bold text-primary text-uppercase mb-1"><span
+                                        id="receivedSellersMoneyLabel">Today Received
+                                    Sellers Money</span>
+                                </div>
                                 <div
                                     class="h-5 mb-0 font-weight-bold text-gray-800">
-                                    PHP {{ !is_null($todayReceivedSellersMoneyFilter) ? number_format($todayReceivedSellersMoneyFilter, 2) : number_format($todayReceivedSellersMoney, 2) }}</div>
+                                    <span
+                                        id="receivedSellersMoney">PHP {{  number_format($todayReceivedSellersMoney, 2) }}</span>
+                                </div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-wallet fa-2x text-gray-300"></i>
@@ -74,11 +79,12 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div
-                                    class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{ session('from_date') ? (\Illuminate\Support\Carbon::parse(session('from_date'))->format('d F Y'). ' Received Handling Fee') : 'Today Received Handling Fee' }}
+                                    class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    <span id="overallHandlingFeeLabel">Today Received Handling Fee</span>
                                 </div>
                                 <div
-                                    class="h-5 mb-0 font-weight-bold text-gray-800">
-                                    PHP {{ $overallHandlingFeeTodayFilter ? number_format($overallHandlingFeeTodayFilter, 2) : number_format($overallHandlingFeeToday, 2) }}</div>
+                                    class="h-5 mb-0 font-weight-bold text-gray-800 ">
+                                    <span id="overallHandlingFee">PHP {{ $overallHandlingFeeToday }}</span></div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-money-bill fa-2x text-gray-300"></i>
@@ -116,8 +122,6 @@
                 <h6 class="mr-5 font-weight-bold text-primary ">Date Range</h6>
             </div>
             <div class="card-body">
-                {{--                <form action="{{ route('transactions.income.filter') }}" method="POST">--}}
-                @csrf
                 <div class="row">
                     <div class="col-6">
                         <label for="from_date">From Date</label>
@@ -130,8 +134,7 @@
                                placeholder="To Date"/>
                     </div>
                 </div>
-                <button class="btn btn-primary w-100 mt-2 filterTableBtn">Filter</button>
-                {{--                </form>--}}
+                <button class="btn btn-primary w-100 mt-2 filterIncomeBtn">Filter</button>
             </div>
         </div>
 
@@ -139,8 +142,7 @@
         @if($users->isNotEmpty())
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="mr-5 font-weight-bold text-primary ">{{ \Carbon\Carbon::parse(session('from_date'))->format('d F Y') }}
-                        Users</h6>
+                    <h6 class="mr-5 font-weight-bold text-primary ">Users</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -169,41 +171,6 @@
                 </div>
             </div>
         @endif
-
-        {{--        @if($receivedHandlingFee->isNotEmpty())--}}
-        {{--            <div class="card shadow mb-4">--}}
-        {{--                <div class="card-header py-3">--}}
-        {{--                    <h6 class="mr-5 font-weight-bold text-primary ">{{ \Carbon\Carbon::parse(session('from_date'))->format('d F Y') }}--}}
-        {{--                        Received Handling Fee</h6>--}}
-        {{--                </div>--}}
-        {{--                <div class="card-body">--}}
-        {{--                    <div class="table-responsive">--}}
-        {{--                        <table class="table table-bordered" id="receivedHandlingFeeTable" width="100%" cellspacing="0">--}}
-        {{--                            <thead>--}}
-        {{--                            <tr>--}}
-        {{--                                <th>Buyer Name</th>--}}
-        {{--                                <th>Type</th>--}}
-        {{--                                <th>Seller Name</th>--}}
-        {{--                                <th>Date Claimed</th>--}}
-        {{--                                <th>Status</th>--}}
-        {{--                            </tr>--}}
-        {{--                            </thead>--}}
-        {{--                            <tbody>--}}
-        {{--                            @foreach ($receivedHandlingFee as $itemReceived)--}}
-        {{--                                <tr>--}}
-        {{--                                    <td>{{ $itemReceived->buyer_name }}</td>--}}
-        {{--                                    <td>{{ $itemReceived->type }}</td>--}}
-        {{--                                    <td>{{ $itemReceived->owner->name }}</td>--}}
-        {{--                                    <td>{{ $item->claimed_date }}</td>--}}
-        {{--                                    <td>{{ $itemReceived->status }}</td>--}}
-        {{--                                </tr>--}}
-        {{--                            @endforeach--}}
-        {{--                            </tbody>--}}
-        {{--                        </table>--}}
-        {{--                    </div>--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--        @endif--}}
     </div>
 @endsection
 
@@ -222,5 +189,24 @@
             paging: false,
         });
         $('#receivedHandlingFeeTable').DataTable();
+
+
+        $('.filterIncomeBtn').click(function () {
+            $.ajax({
+                url: "{{ route('transaction.ajax-filter-log-income') }}",
+                data: {
+                    from_date: $('#from_date').val(),
+                    to_date: $('#to_date').val(),
+                },
+                success: data => {
+                    console.log(data);
+                    $('#receivedSellersMoneyLabel').text(data.from_date + "Received Sellers Money")
+                    $('#receivedSellersMoney').text("PHP" + data.todayReceivedSellersMoney)
+
+                    $('#overallHandlingFeeLabel').text(data.from_date + "Received Handling Fee")
+                    $('#overallHandlingFee').text("PHP" + data.overallHandlingFee)
+                }
+            })
+        })
     </script>
 @endpush
