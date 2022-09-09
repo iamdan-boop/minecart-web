@@ -6,7 +6,6 @@ use App\Models\Cashout;
 use App\Models\Item;
 use App\Models\User;
 use Bavix\Wallet\Models\Wallet;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -38,6 +37,16 @@ class TransactionController extends Controller
         }
         return view('dashboard.admin.transactions.index', compact('itemsDropped', 'claimedItems', 'todayDropItems', 'todayClaimedItems'));
     }
+
+
+    public function filterIndex(): View {
+        $itemsDropped = Item::where('status', Item::$ITEM_STATUS_PENDING)->count();
+        $claimedItems = Item::where('status', Item::$ITEM_STATUS_CLAIMED)->count();
+        $todayDropItems = Item::where('status', Item::$ITEM_STATUS_PENDING)->where('created_at', now())->count();
+        $todayClaimedItems = Item::where('status', Item::$ITEM_STATUS_CLAIMED)
+            ->where('created_at', now())->count();
+    }
+
 
 
     public function incomeLogView(Request $request): View
@@ -101,7 +110,8 @@ class TransactionController extends Controller
     }
 
 
-    public function resetWallet(User $user) {
+    public function resetWallet(User $user)
+    {
         $user->wallet->update(['balance' => 0]);
 
         notify()->success('Wallet successfully reset.');

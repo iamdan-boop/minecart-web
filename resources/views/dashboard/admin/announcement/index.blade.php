@@ -36,11 +36,10 @@
                                     <td>{{ $announcement->title }}</td>
                                     <td>{{ $announcement->created_at }}</td>
                                     <td>
-                                        <a class="btn btn-block btn-primary"
-                                           href="{{ route('announcements.show', $announcements) }}">
-                                            <span class="fa fa-eye"></span>
+                                        <a class="btn btn-block btn-primary fa fa-eye"
+                                           href="{{ route('announcements.show', $announcement) }}">
                                         </a>
-                                        <form action="{{ route('announcements.destroy', $announcements) }}"
+                                        <form action="{{ route('announcements.destroy', $announcement) }}"
                                               method="POST"
                                               onsubmit="return confirm('Are you sure you want to delete ' + '{{ $announcement->title }}')">
                                             @csrf

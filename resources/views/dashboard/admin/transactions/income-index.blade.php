@@ -38,7 +38,7 @@
                                     class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{ session('from_date') ? (\Illuminate\Support\Carbon::parse(session('from_date'))->format('d F Y'). ' Received Sellers Money') : 'Today Received Sellers Money' }}</div>
                                 <div
                                     class="h-5 mb-0 font-weight-bold text-gray-800">
-                                    PHP {{ session('from_date') ? number_format($todayReceivedSellersMoneyFilter, 2) : number_format($todayReceivedSellersMoney, 2) }}</div>
+                                    PHP {{ !is_null($todayReceivedSellersMoneyFilter) ? number_format($todayReceivedSellersMoneyFilter, 2) : number_format($todayReceivedSellersMoney, 2) }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-wallet fa-2x text-gray-300"></i>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div
                                     class="h-5 mb-0 font-weight-bold text-gray-800">
-                                    PHP {{ session('from_date') ? number_format($overallHandlingFeeTodayFilter, 2) : number_format($overallHandlingFeeToday, 2) }}</div>
+                                    PHP {{ $overallHandlingFeeTodayFilter ? number_format($overallHandlingFeeTodayFilter, 2) : number_format($overallHandlingFeeToday, 2) }}</div>
                             </div>
                             <div class="col-auto">
                                 <i class="fas fa-money-bill fa-2x text-gray-300"></i>
@@ -116,22 +116,22 @@
                 <h6 class="mr-5 font-weight-bold text-primary ">Date Range</h6>
             </div>
             <div class="card-body">
-                <form action="{{ route('transactions.income.filter') }}" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="col-6">
-                            <label for="from_date">From Date</label>
-                            <input id="from_date" type="text" name="from_date" class="form-control form-control-user"
-                                   placeholder="From Date"/>
-                        </div>
-                        <div class="col-6">
-                            <label for="to_date">To Date</label>
-                            <input id="to_date" type="text" name="to_date" class="form-control form-control-user"
-                                   placeholder="To Date"/>
-                        </div>
+                {{--                <form action="{{ route('transactions.income.filter') }}" method="POST">--}}
+                @csrf
+                <div class="row">
+                    <div class="col-6">
+                        <label for="from_date">From Date</label>
+                        <input id="from_date" type="text" name="from_date" class="form-control form-control-user"
+                               placeholder="From Date"/>
                     </div>
-                    <button class="btn btn-primary w-100 mt-2" type="submit">Filter</button>
-                </form>
+                    <div class="col-6">
+                        <label for="to_date">To Date</label>
+                        <input id="to_date" type="text" name="to_date" class="form-control form-control-user"
+                               placeholder="To Date"/>
+                    </div>
+                </div>
+                <button class="btn btn-primary w-100 mt-2 filterTableBtn">Filter</button>
+                {{--                </form>--}}
             </div>
         </div>
 
