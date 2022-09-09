@@ -2,6 +2,7 @@
 
 
 @push('styles')
+    <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
     <link href="{{ asset('vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 @endpush
 
@@ -131,6 +132,13 @@
                                    placeholder="Shelf ID">
                         </div>
 
+
+                        <div class="form-group">
+                            <label for="shelf_life_till">Shelf Life Till</label>
+                            <input id="shelf_life_till" class="form-control form-control-user"
+                                   name="shelf_life_till">
+                        </div>
+
                         <div class="form-group">
                             <label for="sellers_price_input">Seller Price</label>
                             <input id="sellers_price_input" class="form-control form-control-user" type="number"
@@ -203,11 +211,15 @@
 @push('scripts')
     <script src="{{ asset('vendor/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('vendor/datatables/dataTables.bootstrap4.js') }}"></script>
+    <script src="{{ asset('js/moment.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-datetimepicker.min.js') }}"></script>
     <script type="text/javascript">
         $(function () {
             $('#itemsTable').DataTable({
                 paging: false,
             });
+
+            $('#shelf_life_till').datetimepicker();
 
             $('.updateItemBtn').click(function () {
                 const item = $(this).data('object');
@@ -216,6 +228,7 @@
                 $('#handling_fee').text(item.handling_fee.toFixed(2))
                 $('#handling_fee_input').val(item.handling_fee)
                 $('#shelf_location').val(item.shelf_location)
+                $('#shelf_life_till').val(item.expiry_date)
                 $('#sellers_price_input').val(item.price)
                 $('#note').val(item.note)
 
