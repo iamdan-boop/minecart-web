@@ -39,7 +39,7 @@
                                                         data-target="#cashoutRequestModal"
                                                         data-object="{{ json_encode($cashout) }}">Accept
                                                 </button>
-                                                <form action="{{ route('cashouts.decline') }}" method="POST">
+                                                <form action="{{ route('cashouts.decline', $cashout) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <button class="btn btn-danger" type="submit">Decline</button>
