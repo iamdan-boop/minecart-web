@@ -64,7 +64,7 @@ class CashoutController extends Controller
 
     public function declineCashout(Cashout $cashout): RedirectResponse
     {
-        $cashout->update(['status' => Cashout::$CASHOUT_STATUS_PENDING]);
+        $cashout->delete();
 
         notify()->warning('Cashout decline successfully.');
         return redirect()->route('cashouts.index');

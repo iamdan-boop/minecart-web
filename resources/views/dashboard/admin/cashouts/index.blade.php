@@ -12,7 +12,7 @@
         <div class="container">
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="mr-5 font-weight-bold text-primary ">Cashout Logs</h6>
+                    <h6 class="mr-5 font-weight-bold text-primary">Cashout Logs</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -34,11 +34,12 @@
                                     <td>
                                         <div class="container">
                                             <div class="row justify-content-center lg:justify-start">
-                                                <button class="btn btn-success mb-2 mr-2 lg:mb-0 acceptCashoutBtn" data-toggle="modal"
+                                                <button class="btn btn-success mb-2 mr-2 lg:mb-0 acceptCashoutBtn"
+                                                        data-toggle="modal"
                                                         data-target="#cashoutRequestModal"
                                                         data-object="{{ json_encode($cashout) }}">Accept
                                                 </button>
-                                                <form method="POST">
+                                                <form action="{{ route('cashouts.decline') }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <button class="btn btn-danger" type="submit">Decline</button>
