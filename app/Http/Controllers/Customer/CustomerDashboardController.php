@@ -24,6 +24,8 @@ class CustomerDashboardController extends Controller
         ])->sum('price');
 
 
+
+
         return view('dashboard.customer.dashboard', [
             'itemsClaimedCost' => $itemsClaimed,
             'receivedCashouts' => $receivedCashouts

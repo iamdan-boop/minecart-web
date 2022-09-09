@@ -37,10 +37,10 @@
                                     <td>{{ $announcement->created_at }}</td>
                                     <td>
                                         <a class="btn btn-block btn-primary"
-                                           href="{{ route('announcements.show', $cashout) }}">
+                                           href="{{ route('announcements.show', $announcements) }}">
                                             <span class="fa fa-eye"></span>
                                         </a>
-                                        <form action="{{ route('announcements.destroy', $cashout) }}"
+                                        <form action="{{ route('announcements.destroy', $announcements) }}"
                                               method="POST"
                                               onsubmit="return confirm('Are you sure you want to delete ' + '{{ $announcement->title }}')">
                                             @csrf
