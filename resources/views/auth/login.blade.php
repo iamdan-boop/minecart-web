@@ -15,6 +15,11 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
+                                    @if ($errors->any())
+                                        @foreach ($errors->all() as $error)
+                                            <div class="text-red-600 my-2">{{$error}}</div>
+                                        @endforeach
+                                    @endif
                                     <form action="{{ route('login.authenticate') }}" method="POST" class="user">
                                         @csrf
                                         <div class="form-group">
@@ -28,6 +33,7 @@
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
                                                    name="password" placeholder="Password">
+
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
