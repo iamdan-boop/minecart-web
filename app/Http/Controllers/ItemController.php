@@ -113,6 +113,7 @@ class ItemController extends Controller
             'status' => Item::$ITEM_STATUS_CLAIMED,
             'claimed_date' => now()
         ]);
+        $item->owner->deposit($item->price);
 
         notify()->success('Item claimed successfully.');
         return redirect()->route('items.for-claiming.index');

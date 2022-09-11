@@ -68,7 +68,15 @@
         <li class="nav-item {{ Route::is('transactions.income.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('transactions.income.index') }}">
                 <i class="fa-solid fa-money-bill-wave"></i>
-                <span>{{ __('Transactions Income') }}</span>
+                <span>{{ __('Income Log') }}</span>
+            </a>
+        </li>
+
+
+        <li class="nav-item {{ Route::is('transactions.income-user.index') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('transactions.income-user.index') }}">
+                <i class="fa-solid fa-money-bill-wave"></i>
+                <span>{{ __('User Income') }}</span>
             </a>
         </li>
 

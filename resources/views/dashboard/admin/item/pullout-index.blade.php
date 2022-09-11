@@ -50,7 +50,7 @@
                                                 >View
                                                 </button>
 
-                                                <form method="POST">
+                                                <form action="{{ route('items.update-return', $item) }}" method="POST">
                                                     @csrf
                                                     @method('PUT')
                                                     <button class="btn btn-danger mb-2" type="submit">Return to Seller
