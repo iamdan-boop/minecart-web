@@ -15,11 +15,6 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                     </div>
-                                    @if ($errors->any())
-                                        @foreach ($errors->all() as $error)
-                                            <div class="text-red-600 my-2">{{$error}}</div>
-                                        @endforeach
-                                    @endif
                                     <form action="{{ route('login.authenticate') }}" method="POST" class="user">
                                         @csrf
                                         <div class="form-group">

@@ -4,7 +4,7 @@
 @section('dashboard-content')
     <div class="container">
         <div class="row">
-            <div class="col-4">
+            <div class="col-12 col-lg-4">
                 <div class="card border-left-primary shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -22,7 +22,7 @@
             </div>
 
 
-            <div class="col-4">
+            <div class="col-12 col-lg-4 my-lg-0 my-2">
                 <div class="card border-left-success shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="col-4">
+            <div class="col-12 col-lg-4 my-lg-0 my-2">
                 <div class="card border-left-warning shadow h-100 py-2">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -69,16 +69,17 @@
                         <div class="card mt-2">
                             <div class="card-header">{{ $announcement->title }}</div>
                             <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p>{!! $announcement->body !!}</p>
-                                </blockquote>
+{{--                                <blockquote class="blockquote mb-0 px-2 px-lg-0 w-auto">--}}
+{{--                                   --}}
+{{--                                </blockquote>--}}
+                                <p class="card-text">{!! $announcement->body !!}</p>
                             </div>
                         </div>
                     @endforeach
 
                     @if ( $announcements->links()->paginator->hasPages())
                         <div class="mt-4 p-4 d-flex justify-content-end align-items-end">
-                            {{ $announcements->links() }}
+                            {{ $announcements->onEachSide(2)->links() }}
                         </div>
                     @endif
                 </div>

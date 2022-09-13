@@ -21,9 +21,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Styles -->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     @vite(['resources/js/app.js', 'resources/css/app.css'])
+
 
     <!-- Favicon -->
     <link href="{{ asset('img/favicon.png') }}" rel="icon" type="image/png">
@@ -45,6 +45,7 @@
 <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 @notifyJs
 @livewireScripts
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 @stack('scripts')
 </body>
 </html>
